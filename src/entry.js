@@ -19,12 +19,10 @@ class CommentBox extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     reqwest({
       url: this.props.url,
       method: 'get',
       success: (resp) => {
-        console.log(resp);
         this.setState({data: this.reduceToList(resp)});
       },
       error: (err) => { console.log(err.toString()); }
