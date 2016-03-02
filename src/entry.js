@@ -5,7 +5,6 @@ import React, {
 import ReactDOM from 'react-dom';
 window.React = React;
 
-import marked from 'marked';
 import reqwest from 'reqwest';
 
 class CommentBox extends Component {
@@ -70,9 +69,8 @@ class CommentList extends Component {
         <Comment
           key={comment.id}
           author={comment.author}
-        >
-          {comment.text}
-        </Comment>
+          text={comment.text}
+        />
       );
     });
     return (
@@ -142,12 +140,7 @@ class CommentForm extends Component {
 class Comment extends Component {
   static propTypes = {
     author: PropTypes.string.isRequired,
-    children: PropTypes.any
-  }
-
-  rawMarkup = () => {
-    const markup = marked(this.props.children.toString(), {sanitize: true});
-    return { __html: markup};
+    text: PropTypes.string.isRequired
   }
 
   render() {
@@ -156,7 +149,9 @@ class Comment extends Component {
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        <span dangerouslySetInnerHTML={this.rawMarkup()} />
+        <p>
+          {this.props.text}
+        </p>
       </div>
     );
   }
