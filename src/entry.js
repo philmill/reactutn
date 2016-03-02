@@ -43,11 +43,17 @@ class CommentBox extends Component {
     );
   }
 
+  handleCommentSubmit = (comment) => {
+    const comments = this.state.data;
+    comment.id = Date.now();
+    this.setState({data: [...comments, comment]});
+  }
+
   render() {
     return (
       <div className="commentBox">
         <CommentList comments={this.state.data}/>
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit}/>
       </div>
     );
   }
@@ -78,11 +84,57 @@ class CommentList extends Component {
 }
 
 class CommentForm extends Component {
+  static propTypes = {
+    onCommentSubmit: PropTypes.func.isRequired
+  }
+
+  state = {
+    author: '',
+    text: ''
+  }
+
+  handleAuthorChange = (e) => {
+    this.setState({author: e.target.value});
+  }
+
+  handleTextChange = (e) => {
+    this.setState({text: e.target.value});
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const author = this.state.author.trim();
+    const text = this.state.text.trim();
+    if (!text || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({author, text});
+    this.setState({author: '', text: ''});
+  }
+
   render() {
     return (
-      <div className="commentForm">
-        Hello I'm a CommentForm
-      </div>
+      <form
+        className="commentForm"
+        onSubmit={this.handleSubmit}
+      >
+        <input
+          type="text"
+          placeholder="Your Name"
+          value={this.state.author}
+          onChange={this.handleAuthorChange}
+        />
+        <input
+          type="text"
+          placeholder="Say Something ..."
+          value={this.state.text}
+          onChange={this.handleTextChange}
+        />
+        <input
+          type="submit"
+          value="Add Comment"
+        />
+      </form>
     );
   }
 }
