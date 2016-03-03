@@ -2,7 +2,7 @@
   "name": "react-tutorial-basic",
   "version": "0.0.1",
   "description": "repeat of https://facebook.github.io/react/docs/tutorial.html",
-  "main": "index.js",
+  "main": "./build/assets/bundle.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --content-base build/",
     "build": "webpack --progress --colors",
